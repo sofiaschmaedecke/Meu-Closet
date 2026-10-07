@@ -1,1 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Guarda-Roupa Digital 🎨✨</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Local -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-shirt"></i>
+            <span>FitCheck!</span>
+        </div>
+        <nav class="nav-links">
+            <button class="nav-btn active" onclick="switchTab('closet')">
+                <i class="fa-solid fa-boxes-stacked"></i> Meu Closet
+            </button>
+            <button class="nav-btn" onclick="switchTab('studio')">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Montar Look
+            </button>
+            <button class="nav-btn" onclick="switchTab('planner')">
+                <i class="fa-solid fa-calendar-days"></i> Agenda da Semana
+            </button>
+            <button class="nav-btn" onclick="switchTab('lookbook')">
+                <i class="fa-solid fa-heart"></i> Meus Favoritos
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- SEÇÃO: CLOSET -->
+        <section id="tab-closet" class="tab-content active">
+            <div class="section-header">
+                <div>
+                    <h1>Meu Guarda-Roupa</h1>
+                    <p>Cadastre suas peças e organize por categoria e vibe!</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    <i class="fa-solid fa-plus"></i> Nova Peça
+                </button>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <span class="filter-label">Categoria:</span>
+                    <button class="chip active" onclick="filterCategory('all', this)">Todas</button>
+                    <button class="chip" onclick="filterCategory('top', this)">👕 Tops / Blusas</button>
+                    <button class="chip" onclick="filterCategory('bottom', this)">👖 Calças / Saias</button>
+                    <button class="chip" onclick="filterCategory('outerwear', this)">🧥 Casacos</button>
+                    <button class="chip" onclick="filterCategory('shoes', this)">👟 Calçados</button>
+                    <button class="chip" onclick="filterCategory('accessory', this)">🕶️ Acessórios</button>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Vibe:</span>
+                    <select id="vibeFilter" class="select-input" onchange="applyFilters()">
+                        <option value="all">Todas as Vibes</option>
+                        <option value="facul">📚 Facul</option>
+                        <option value="role">🎉 Rolê</option>
+                        <option value="esporte">🏃 Esporte / Treino</option>
+                        <option value="frio">❄️ Frio Zica</option>
+                        <option value="casual">😎 Casual</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="clothes-grid" id="closetGrid">
+                <!-- Renderizado via JavaScript -->
+            </div>
+        </section>
+
+        <!-- SEÇÃO: ESTÚDIO DE LOOKS -->
+        <section id="tab-studio" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <h1>Montador de Look ✨</h1>
+                    <p>Crie combinações estilosas ou use a IA para sortear um look do dia!</p>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-accent" onclick="generateRandomOutfit()">
+                        <i class="fa-solid fa-dice"></i> Look Surpresa!
+                    </button>
+                    <button class="btn btn-success" onclick="saveCurrentOutfit()">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar Look
+                    </button>
+                </div>
+            </div>
+
+            <div class="studio-layout">
+                <!-- Canvas do Look Atual -->
+                <div class="outfit-canvas-card">
+                    <div class="canvas-header">
+                        <input type="text" id="outfitNameInput" class="outfit-title-input" value="Meu Look Sem Nome 🎨" placeholder="Nome do Look...">
+                    </div>
+                    
+                    <div class="outfit-preview-slots">
+                        <div class="slot-card" onclick="openPickerModal('accessory')">
+                            <span class="slot-label">Acessório</span>
+                            <div class="slot-body" id="slot-accessory">
+                                <i class="fa-solid fa-glasses slot-placeholder-icon"></i>
+                                <p>Clique para escolher</p>
+                            </div>
+                        </div>
+                        <div class="slot-card" onclick="openPickerModal('outerwear')">
+                            <span class="slot-label">Casaco / Terceira Peça</span>
+                            <div class="slot-body" id="slot-outerwear">
+                                <i class="fa-solid fa-vest slot-placeholder-icon"></i>
+                                <p>Clique para escolher (Opcional)</p>
+                            </div>
+                        </div>
+                        <div class="slot-card" onclick="openPickerModal('top')">
+                            <span class="slot-label">Parte de Cima (Top)</span>
+                            <div class="slot-body" id="slot-top">
+                                <i class="fa-solid fa-shirt slot-placeholder-icon"></i>
+                                <p>Clique para escolher</p>
+                            </div>
+                        </div>
+                        <div class="slot-card" onclick="openPickerModal('bottom')">
+                            <span class="slot-label">Parte de Baixo (Bottom)</span>
+                            <div class="slot-body" id="slot-bottom">
+                                <i class="fa-solid fa-socks slot-placeholder-icon"></i>
+                                <p>Clique para escolher</p>
+                            </div>
+                        </div>
+                        <div class="slot-card" onclick="openPickerModal('shoes')">
+                            <span class="slot-label">Calçado</span>
+                            <div class="slot-body" id="slot-shoes">
+                                <i class="fa-solid fa-shoe-prints slot-placeholder-icon"></i>
+                                <p>Clique para escolher</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel Lateral de Ajuste Rápido -->
+                <div class="studio-sidebar">
+                    <div class="card-box">
+                        <h3><i class="fa-solid fa-cloud-sun"></i> Qual a Vibe de Hoje?</h3>
+                        <div class="form-group">
+                            <label>Ocasião:</label>
+                            <select id="studioVibe" class="select-input">
+                                <option value="facul">📚 Faculdade</option>
+                                <option value="role">🎉 Rolê com Amigos</option>
+                                <option value="esporte">🏃 Treino / Esporte</option>
+                                <option value="casual">😎 Dia a Dia / Casual</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Clima / Temperatura:</label>
+                            <select id="studioWeather" class="select-input">
+                                <option value="hot">☀️ Calor / Ensolarado</option>
+                                <option value="cold">❄️ Frio / Gelado</option>
+                                <option value="mild">🌤️ Agradável / Meio-termo</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-secondary w-100" onclick="clearStudioCanvas()">
+                            <i class="fa-solid fa-rotate-left"></i> Limpar Canvas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: AGENDA SEMANAL -->
+        <section id="tab-planner" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <h1>Agenda Semanal de Fits 🗓️</h1>
+                    <p>Planeje o que vai usar na semana e não perca tempo de manhã!</p>
+                </div>
+            </div>
+
+            <div class="week-grid">
+                <div class="day-card" id="day-seg">
+                    <div class="day-header">Segunda-Feira</div>
+                    <div class="day-content" id="day-slot-seg">
+                        <!-- Renderizado via JS -->
+                    </div>
+                </div>
+                <div class="day-card" id="day-ter">
+                    <div class="day-header">Terça-Feira</div>
+                    <div class="day-content" id="day-slot-ter"></div>
+                </div>
+                <div class="day-card" id="day-qua">
+                    <div class="day-header">Quarta-Feira</div>
+                    <div class="day-content" id="day-slot-qua"></div>
+                </div>
+                <div class="day-card" id="day-qui">
+                    <div class="day-header">Quinta-Feira</div>
+                    <div class="day-content" id="day-slot-qui"></div>
+                </div>
+                <div class="day-card" id="day-sex">
+                    <div class="day-header">Sexta-Feira</div>
+                    <div class="day-content" id="day-slot-sex"></div>
+                </div>
+                <div class="day-card" id="day-sab">
+                    <div class="day-header">Sábado</div>
+                    <div class="day-content" id="day-slot-sab"></div>
+                </div>
+                <div class="day-card" id="day-dom">
+                    <div class="day-header">Domingo</div>
+                    <div class="day-content" id="day-slot-dom"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: LOOKBOOK / FAVORITOS -->
+        <section id="tab-lookbook" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <h1>Meus Looks Salvos ❤️</h1>
+                    <p>Sua galeria de combinações favoritas prontas para usar.</p>
+                </div>
+            </div>
+
+            <div class="lookbook-grid" id="lookbookGrid">
+                <!-- Renderizado via JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL: NOVA PEÇA -->
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Nova Peça</h2>
+                <button class="close-btn" onclick="closeAddModal()">&times;</button>
+            </div>
+            <form id="addPieceForm" onsubmit="handleAddPiece(event)">
+                <div class="form-group">
+                    <label>Nome / Descrição da Peça:</label>
+                    <input type="text" id="pieceName" class="text-input" placeholder="Ex: Camiseta Oversized Preta" required>
+                </div>
+                <div class="form-group">
+                    <label>Foto da Peça:</label>
+                    <input type="file" id="pieceImage" accept="image/*" class="file-input" required onchange="previewImage(event)">
+                    <div class="image-preview" id="imagePreview">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Selecione uma imagem do seu dispositivo</span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Categoria:</label>
+                        <select id="pieceCategory" class="select-input" required>
+                            <option value="top">👕 Parte de Cima (Top)</option>
+                            <option value="bottom">👖 Parte de Baixo (Bottom)</option>
+                            <option value="outerwear">🧥 Casaco / Sobretudo</option>
+                            <option value="shoes">👟 Calçado</option>
+                            <option value="accessory">🕶️ Acessório</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Vibe Principal:</label>
+                        <select id="pieceVibe" class="select-input" required>
+                            <option value="facul">📚 Facul</option>
+                            <option value="role">🎉 Rolê</option>
+                            <option value="esporte">🏃 Esporte</option>
+                            <option value="frio">❄️ Frio</option>
+                            <option value="casual">😎 Casual</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cor Predominante:</label>
+                    <input type="color" id="pieceColor" value="#ff7675" class="color-picker">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar no Closet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: SELECIONAR PEÇA PARA O SLOT -->
+    <div class="modal" id="pickerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="pickerTitle">Escolha uma peça</h2>
+                <button class="close-btn" onclick="closePickerModal()">&times;</button>
+            </div>
+            <div class="picker-grid" id="pickerGrid">
+                <!-- Renderizado via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Local -->
+    <script src="app.js"></script>
+</body>
+</html>
