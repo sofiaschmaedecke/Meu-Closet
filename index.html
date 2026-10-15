@@ -3,359 +3,1357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Closet Student</title>
-    <!-- React, ReactDOM e Babel via CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <title>Dress to Impress 💅✨ | My Closet & Outfits</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --pink-bg: #ffeaf2;
+            --pink-card: #ffffff;
+            --pink-primary: #ff4785;
+            --pink-light: #ffb8d2;
+            --pink-accent: #ff85b3;
+            --yellow-accent: #fff07c;
+            --text-dark: #4a2c3d;
+            --text-muted: #8c6b7d;
+            --plaid-pattern: repeating-linear-gradient(45deg, rgba(255,184,210,0.2) 0px, rgba(255,184,210,0.2) 15px, rgba(255,255,255,0.2) 15px, rgba(255,255,255,0.2) 30px);
+            --radius-lg: 24px;
+            --radius-sm: 14px;
+            --shadow-soft: 0 10px 25px rgba(255, 71, 133, 0.12);
+            --shadow-bold: 0 15px 35px rgba(255, 71, 133, 0.2);
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--pink-bg);
+            background-image: radial-gradient(#ffc0d9 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            color: var(--text-dark);
+            min-height: 100vh;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #ff6b9d, #ff4785);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-soft);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 4px solid var(--yellow-accent);
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
+
+        .logo {
+            font-family: 'Fredoka', cursive;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 2px 2px 0px #d62860;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
+
+        .logo i {
+            color: var(--yellow-accent);
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        nav {
+            display: flex;
+            gap: 0.6rem;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 0.4rem;
+            border-radius: 40px;
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-btn {
+            border: none;
+            background: transparent;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: white;
+            color: var(--pink-primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* CONTAINER PRINCIPAL */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: zoomIn 0.35s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.8rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 2.2rem;
+            color: var(--pink-primary);
+            text-shadow: 1px 1px 0px white;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* BOTÕES */
+        .btn {
+            padding: 0.75rem 1.6rem;
+            border-radius: 30px;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 6px 15px rgba(255, 71, 133, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(255, 71, 133, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff4785, #ff6b9d);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--pink-primary);
+            border: 2px solid var(--pink-light);
+        }
+
+        .btn-yellow {
+            background: var(--yellow-accent);
+            color: var(--text-dark);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        /* FILTROS */
+        .filter-card {
+            background: var(--pink-card);
+            border-radius: var(--radius-lg);
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+            border: 2px solid #ffe1ed;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+        }
+
+        .chips-container {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            background: #fff0f5;
+            border: 2px solid #ffd1e3;
+            color: var(--text-dark);
+            padding: 0.5rem 1.1rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chip:hover, .chip.active {
+            background: var(--pink-primary);
+            color: white;
+            border-color: var(--pink-primary);
+        }
+
+        .select-pink {
+            background: #fff0f5;
+            border: 2px solid #ffd1e3;
+            border-radius: 18px;
+            padding: 0.6rem 1.2rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: var(--text-dark);
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* GRID DO CLOSET */
+        .clothes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .cloth-card {
+            background: var(--pink-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            border: 3px solid #ffe6f0;
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cloth-card:hover {
+            transform: translateY(-8px) rotate(-1deg);
+            box-shadow: var(--shadow-bold);
+            border-color: var(--pink-primary);
+        }
+
+        .cloth-img-box {
+            width: 100%;
+            height: 220px;
+            background: var(--plaid-pattern);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 0.8rem;
+        }
+
+        .cloth-img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            transition: var(--transition);
+        }
+
+        .cloth-card:hover .cloth-img-box img {
+            transform: scale(1.08);
+        }
+
+        .cloth-details {
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background: white;
+            flex-grow: 1;
+        }
+
+        .cloth-name {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .cloth-tags {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .tag-pink {
+            background: #ffe6f0;
+            color: var(--pink-primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.7rem;
+            border-radius: 12px;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            color: var(--pink-primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .delete-btn:hover {
+            background: var(--pink-primary);
+            color: white;
+            transform: scale(1.15);
+        }
+
+        /* MONTADOR DE LOOKS */
+        .studio-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 850px) {
+            .studio-container { grid-template-columns: 1fr; }
+        }
+
+        .cher-computer {
+            background: #fff5f9;
+            border-radius: var(--radius-lg);
+            border: 6px solid var(--pink-light);
+            padding: 2rem;
+            box-shadow: var(--shadow-bold);
+            position: relative;
+        }
+
+        .cher-screen-header {
+            background: var(--pink-primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 16px 16px 0 0;
+            margin: -2rem -2rem 1.8rem -2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cher-screen-header input {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px dashed rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.2rem;
+            padding: 0.3rem 0.8rem;
+            outline: none;
+            width: 70%;
+        }
+
+        .cher-screen-header input::placeholder { color: rgba(255, 255, 255, 0.8); }
+
+        .slots-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .slot-box {
+            background: white;
+            border: 3px dashed #ffb8d2;
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .slot-box:hover {
+            border-color: var(--pink-primary);
+            background: #fff0f5;
+            transform: scale(1.01);
+        }
+
+        .slot-info-text {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .slot-icon {
+            font-size: 2rem;
+            color: var(--pink-accent);
+            width: 50px;
+            text-align: center;
+        }
+
+        .slot-img-preview {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: var(--pink-bg);
+            padding: 0.3rem;
+            border: 2px solid var(--pink-light);
+        }
+
+        .control-panel {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.8rem;
+            box-shadow: var(--shadow-soft);
+            border: 2px solid #ffe1ed;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .panel-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.4rem;
+            color: var(--pink-primary);
+        }
+
+        /* MODAIS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(74, 44, 61, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-body {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 4px solid var(--pink-light);
+            padding: 2.2rem;
+            width: 90%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-bold);
+            animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal-btn {
+            background: #ffe6f0;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            color: var(--pink-primary);
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .input-pink {
+            background: #fff0f5;
+            border: 2px solid #ffd1e3;
+            border-radius: 14px;
+            padding: 0.8rem 1.2rem;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+        }
+
+        .input-pink:focus {
+            border-color: var(--pink-primary);
+        }
+
+        .image-preview-box {
+            border: 2px dashed var(--pink-primary);
+            border-radius: 16px;
+            background: #fff0f5;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--pink-primary);
+            font-weight: 700;
+            gap: 0.5rem;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .image-preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* PICKER GRID IN MODAL */
+        .picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 1rem;
+        }
+
+        .picker-card {
+            background: #fff0f5;
+            border: 2px solid #ffd1e3;
+            border-radius: 14px;
+            padding: 0.6rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .picker-card:hover {
+            border-color: var(--pink-primary);
+            transform: scale(1.05);
+            background: white;
+        }
+
+        .picker-card img {
+            width: 100%;
+            height: 85px;
+            object-fit: contain;
+        }
+
+        .picker-card span {
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: block;
+            margin-top: 0.4rem;
+            color: var(--text-dark);
+        }
+
+        /* AGENDA SEMANAL */
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .day-column {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.2rem 0.8rem;
+            box-shadow: var(--shadow-soft);
+            border: 2px solid #ffe1ed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 220px;
+        }
+
+        .day-header {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.1rem;
+            color: var(--pink-primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .day-content {
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        /* LOOKBOOK */
+        .lookbook-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .lookbook-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            border: 3px solid #ffe6f0;
+        }
+
+        .lookbook-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.3rem;
+            color: var(--pink-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .lookbook-thumbs {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--pink-bg);
+            padding: 0.8rem;
+            border-radius: 14px;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .lookbook-thumb-img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+            padding: 0.2rem;
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+    <!-- HEADER DE NAVEGAÇÃO -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-gem"></i>
+            <span>Dress to Impress</span>
+        </div>
+        <nav>
+            <button class="nav-btn active" onclick="switchTab('closet')">
+                <i class="fa-solid fa-boxes-stacked"></i> Meu Closet
+            </button>
+            <button class="nav-btn" onclick="switchTab('studio')">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Cher's Match
+            </button>
+            <button class="nav-btn" onclick="switchTab('planner')">
+                <i class="fa-solid fa-calendar-heart"></i> Agenda
+            </button>
+            <button class="nav-btn" onclick="switchTab('lookbook')">
+                <i class="fa-solid fa-heart"></i> Favoritos
+            </button>
+        </nav>
+    </header>
 
-        function App() {
-            // Categorias de roupas
-            const CATEGORIES = ["Todas", "Partes de Cima", "Partes de Baixo", "Calçados", "Acessórios", "Casacos"];
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container">
 
-            // Estado inicial com alguns itens de exemplo
-            const [items, setItems] = useState(() => {
-                const saved = localStorage.getItem('closet_items');
-                if (saved) {
-                    try { return JSON.parse(saved); } catch (e) { console.error(e); }
-                }
-                return [
-                    { id: 1, name: "Camiseta Branca Básica", category: "Partes de Cima", color: "#FFFFFF", favorite: true, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=300" },
-                    { id: 2, name: "Calça Jeans Oversized", category: "Partes de Baixo", color: "#2563EB", favorite: false, image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=300" },
-                    { id: 3, name: "Tênis Branco Classic", category: "Calçados", color: "#F3F4F6", favorite: true, image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300" },
-                    { id: 4, name: "Moletom Cinza Escolar", category: "Casacos", color: "#9CA3AF", favorite: false, image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300" }
-                ];
+        <!-- ABA 1: MEU CLOSET -->
+        <section id="tab-closet" class="tab-content active">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Meu Armário Virtual 💅</h1>
+                    <p class="section-desc">Cadastre suas roupas tirando foto ou enviando da galeria!</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    <i class="fa-solid fa-plus"></i> Adicionar Peça
+                </button>
+            </div>
+
+            <div class="filter-card">
+                <div class="chips-container">
+                    <button class="chip active" onclick="filterCategory('all', this)">Todas</button>
+                    <button class="chip" onclick="filterCategory('top', this)">👚 Tops</button>
+                    <button class="chip" onclick="filterCategory('bottom', this)">👖 Bottoms</button>
+                    <button class="chip" onclick="filterCategory('outerwear', this)">🧥 Casacos</button>
+                    <button class="chip" onclick="filterCategory('shoes', this)">👠 Sapatos</button>
+                    <button class="chip" onclick="filterCategory('accessory', this)">🕶️ Acessórios</button>
+                </div>
+                <div>
+                    <select id="vibeFilter" class="select-pink" onchange="renderCloset()">
+                        <option value="all">Todas as Vibes ✨</option>
+                        <option value="facul">📚 Faculdade Chic</option>
+                        <option value="role">🎉 Party Girl / Rolê</option>
+                        <option value="casual">😎 Casual Glam</option>
+                        <option value="frio">❄️ Inverno Aconchegante</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="clothes-grid" id="closetGrid"></div>
+        </section>
+
+        <!-- ABA 2: CHER'S MATCH / MONTADOR DE LOOKS -->
+        <section id="tab-studio" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Cher's Closet Matcher 💻</h1>
+                    <p class="section-desc">Seu computador pessoal de estilo igual ao filme Patricinhas de Beverly Hills!</p>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-yellow" onclick="generateRandomOutfit()">
+                        <i class="fa-solid fa-dice"></i> Combination Matcher!
+                    </button>
+                    <button class="btn btn-primary" onclick="saveCurrentOutfit()">
+                        <i class="fa-solid fa-heart"></i> Salvar Look
+                    </button>
+                </div>
+            </div>
+
+            <div class="studio-container">
+                <div class="cher-computer">
+                    <div class="cher-screen-header">
+                        <input type="text" id="outfitNameInput" value="Cher Approved Fit ✨" placeholder="Nome do Look...">
+                        <span style="font-size: 0.85rem; font-weight: bold;"><i class="fa-solid fa-wifi"></i> MATCH 100%</span>
+                    </div>
+
+                    <div class="slots-wrapper">
+                        <div class="slot-box" onclick="openPickerModal('accessory')">
+                            <div class="slot-info-text">
+                                <i class="fa-solid fa-glasses slot-icon"></i>
+                                <div>
+                                    <strong>Acessório</strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);" id="label-accessory">Nenhuma peça selecionada</p>
+                                </div>
+                            </div>
+                            <div id="slot-preview-accessory"></div>
+                        </div>
+
+                        <div class="slot-box" onclick="openPickerModal('outerwear')">
+                            <div class="slot-info-text">
+                                <i class="fa-solid fa-vest-patches slot-icon"></i>
+                                <div>
+                                    <strong>Casaco / Terceira Peça</strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);" id="label-outerwear">Nenhuma peça selecionada</p>
+                                </div>
+                            </div>
+                            <div id="slot-preview-outerwear"></div>
+                        </div>
+
+                        <div class="slot-box" onclick="openPickerModal('top')">
+                            <div class="slot-info-text">
+                                <i class="fa-solid fa-shirt slot-icon"></i>
+                                <div>
+                                    <strong>Parte de Cima (Top)</strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);" id="label-top">Nenhuma peça selecionada</p>
+                                </div>
+                            </div>
+                            <div id="slot-preview-top"></div>
+                        </div>
+
+                        <div class="slot-box" onclick="openPickerModal('bottom')">
+                            <div class="slot-info-text">
+                                <i class="fa-solid fa-socks slot-icon"></i>
+                                <div>
+                                    <strong>Parte de Baixo (Bottom)</strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);" id="label-bottom">Nenhuma peça selecionada</p>
+                                </div>
+                            </div>
+                            <div id="slot-preview-bottom"></div>
+                        </div>
+
+                        <div class="slot-box" onclick="openPickerModal('shoes')">
+                            <div class="slot-info-text">
+                                <i class="fa-solid fa-shoe-prints slot-icon"></i>
+                                <div>
+                                    <strong>Sapatos / Calçado</strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);" id="label-shoes">Nenhuma peça selecionada</p>
+                                </div>
+                            </div>
+                            <div id="slot-preview-shoes"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-panel">
+                    <h3 class="panel-title"><i class="fa-solid fa-sliders"></i> Ajustes de Estilo</h3>
+                    <div class="form-group">
+                        <label>Ocasião / Vibe:</label>
+                        <select id="studioVibe" class="select-pink">
+                            <option value="facul">📚 Faculdade Chic</option>
+                            <option value="role">🎉 Rolê / Festa</option>
+                            <option value="casual">😎 Casual</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Clima Atual:</label>
+                        <select id="studioWeather" class="select-pink">
+                            <option value="hot">☀️ Ensolarado / Quente</option>
+                            <option value="cold">❄️ Frio / Gelado</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary" onclick="clearStudioCanvas()" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-rotate-left"></i> Limpar Escolhas
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 3: AGENDA SEMANAL -->
+        <section id="tab-planner" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Agenda Semanal de Fits 🗓️</h1>
+                    <p class="section-desc">Planeje seus looks para a faculdade e rolês da semana!</p>
+                </div>
+            </div>
+
+            <div class="week-grid">
+                <div class="day-column"><div class="day-header">Segunda</div><div class="day-content" id="day-seg"></div></div>
+                <div class="day-column"><div class="day-header">Terça</div><div class="day-content" id="day-ter"></div></div>
+                <div class="day-column"><div class="day-header">Quarta</div><div class="day-content" id="day-qua"></div></div>
+                <div class="day-column"><div class="day-header">Quinta</div><div class="day-content" id="day-qui"></div></div>
+                <div class="day-column"><div class="day-header">Sexta</div><div class="day-content" id="day-sex"></div></div>
+                <div class="day-column"><div class="day-header">Sábado</div><div class="day-content" id="day-sab"></div></div>
+                <div class="day-column"><div class="day-header">Domingo</div><div class="day-content" id="day-dom"></div></div>
+            </div>
+        </section>
+
+        <!-- ABA 4: FAVORITOS / LOOKBOOK -->
+        <section id="tab-lookbook" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Meus Favoritos ❤️</h1>
+                    <p class="section-desc">Sua galeria de outfits perfeitos salvos!</p>
+                </div>
+            </div>
+
+            <div class="lookbook-grid" id="lookbookGrid"></div>
+        </section>
+
+    </main>
+
+    <!-- MODAL: NOVA PEÇA COM RECURSO DE CÂMERA -->
+    <div class="modal" id="addModal">
+        <div class="modal-body">
+            <div class="modal-header">
+                <h2 style="font-family: 'Fredoka', cursive; color: var(--pink-primary);">Adicionar Nova Peça 📸</h2>
+                <button class="close-modal-btn" onclick="closeAddModal()">&times;</button>
+            </div>
+            <form id="addPieceForm" onsubmit="handleAddPiece(event)">
+                <div class="form-group">
+                    <label>Nome / Descrição:</label>
+                    <input type="text" id="pieceName" class="input-pink" placeholder="Ex: Saia Xadrez Amarela Cher" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Imagem da Peça:</label>
+                    
+                    <!-- BOTÕES DE CÂMERA OU GALERIA -->
+                    <div style="display:flex; gap:0.6rem; margin-bottom: 0.5rem;">
+                        <button type="button" class="btn btn-primary" style="flex:1; padding: 0.5rem; font-size: 0.85rem;" onclick="startCamera()">
+                            <i class="fa-solid fa-camera"></i> Tirar Foto
+                        </button>
+                        <button type="button" class="btn btn-secondary" style="flex:1; padding: 0.5rem; font-size: 0.85rem;" onclick="document.getElementById('pieceImage').click()">
+                            <i class="fa-solid fa-folder-open"></i> Da Galeria
+                        </button>
+                    </div>
+
+                    <!-- CAMERA AO VIVO -->
+                    <div id="cameraBox" style="display:none; text-align:center; margin-bottom: 0.5rem;">
+                        <video id="webcamVideo" autoplay playsinline style="width: 100%; border-radius: 14px; max-height: 200px; background: #000; border: 2px solid var(--pink-primary);"></video>
+                        <button type="button" class="btn btn-yellow" onclick="takeSnapshot()" style="margin-top: 0.5rem; width: 100%; justify-content: center;">
+                            📸 Capturar Imagem
+                        </button>
+                    </div>
+
+                    <!-- PREVIEW DA FOTO SELECIONADA OU TIRADA -->
+                    <div class="image-preview-box" id="uploadBox">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.2rem;"></i>
+                        <span>Nenhuma foto tirada ou selecionada</span>
+                    </div>
+
+                    <!-- INPUT DE ARQUIVO (OCULTO) -->
+                    <input type="file" id="pieceImage" accept="image/*" style="display:none;" onchange="previewImage(event)">
+                </div>
+
+                <div class="form-group">
+                    <label>Categoria:</label>
+                    <select id="pieceCategory" class="select-pink" required>
+                        <option value="top">👚 Top / Blusa</option>
+                        <option value="bottom">👖 Bottom / Saia / Calça</option>
+                        <option value="outerwear">🧥 Casaco / Blazer</option>
+                        <option value="shoes">👠 Sapato / Tênis</option>
+                        <option value="accessory">🕶️ Acessório / Bolsa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Vibe Principal:</label>
+                    <select id="pieceVibe" class="select-pink" required>
+                        <option value="facul">📚 Faculdade Chic</option>
+                        <option value="role">🎉 Party Girl / Rolê</option>
+                        <option value="casual">😎 Casual Glam</option>
+                        <option value="frio">❄️ Inverno</option>
+                    </select>
+                </div>
+                <div style="display:flex; justify-content: flex-end; gap: 0.8rem; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar no Closet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: SELECIONAR PEÇA PARA SLOT -->
+    <div class="modal" id="pickerModal">
+        <div class="modal-body">
+            <div class="modal-header">
+                <h2 style="font-family: 'Fredoka', cursive; color: var(--pink-primary);" id="pickerTitle">Escolha a peça</h2>
+                <button class="close-modal-btn" onclick="closePickerModal()">&times;</button>
+            </div>
+            <div class="picker-grid" id="pickerGrid"></div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ESTADO DA APLICAÇÃO
+        let clothes = [];
+        let outfits = [];
+        let weeklyPlan = { seg: null, ter: null, qua: null, qui: null, sex: null, sab: null, dom: null };
+        let currentCategoryFilter = 'all';
+        let currentStudioOutfit = { top: null, bottom: null, outerwear: null, shoes: null, accessory: null };
+        let activeSlotForPicker = null;
+
+        // CÂMERA VARS
+        let mediaStream = null;
+        let capturedDataUrl = null;
+
+        // EXEMPLOS INICIAIS
+        const defaultClothes = [
+            { id: '1', name: 'Conjunto Xadrez Amarelo', category: 'top', vibe: 'facul', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400' },
+            { id: '2', name: 'Saia Plissada Rosa', category: 'bottom', vibe: 'facul', image: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400' },
+            { id: '3', name: 'Salto Plataforma Branco', category: 'shoes', vibe: 'role', image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400' },
+            { id: '4', name: 'Oversized Blazer Pink', category: 'outerwear', vibe: 'facul', image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400' },
+            { id: '5', name: 'Óculos Estilo Anos 90', category: 'accessory', vibe: 'casual', image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400' }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            renderCloset();
+            renderLookbook();
+            renderWeeklyPlanner();
+        });
+
+        // NAVEGAÇÃO ENTRE ABAS
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // LOCALSTORAGE
+        function loadData() {
+            const savedClothes = localStorage.getItem('dti_clothes');
+            clothes = savedClothes ? JSON.parse(savedClothes) : defaultClothes;
+
+            const savedOutfits = localStorage.getItem('dti_outfits');
+            outfits = savedOutfits ? JSON.parse(savedOutfits) : [];
+
+            const savedPlan = localStorage.getItem('dti_weekly');
+            if (savedPlan) weeklyPlan = JSON.parse(savedPlan);
+        }
+
+        function saveData() {
+            localStorage.setItem('dti_clothes', JSON.stringify(clothes));
+            localStorage.setItem('dti_outfits', JSON.stringify(outfits));
+            localStorage.setItem('dti_weekly', JSON.stringify(weeklyPlan));
+        }
+
+        // RENDERIZAR CLOSET
+        function renderCloset() {
+            const grid = document.getElementById('closetGrid');
+            grid.innerHTML = '';
+
+            const vibeFilter = document.getElementById('vibeFilter').value;
+
+            const filtered = clothes.filter(item => {
+                const matchCat = currentCategoryFilter === 'all' || item.category === currentCategoryFilter;
+                const matchVibe = vibeFilter === 'all' || item.vibe === vibeFilter;
+                return matchCat && matchVibe;
             });
 
-            const [selectedCategory, setSelectedCategory] = useState("Todas");
-            const [searchTerm, setSearchTerm] = useState("");
-            const [showModal, setShowModal] = useState(false);
-            const [newItem, setNewItem] = useState({ name: "", category: "Partes de Cima", color: "#000000", image: "" });
-            const [activeTab, setActiveTab] = useState("closet"); // 'closet' ou 'outfits'
-            const [generatedOutfit, setGeneratedOutfit] = useState(null);
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; font-weight: bold; color: var(--text-muted); padding: 3rem;">Nenhuma peça encontrada nessa categoria! 💕</p>`;
+                return;
+            }
 
-            // Salvar no LocalStorage sempre que alterar os itens
-            useEffect(() => {
-                localStorage.setItem('closet_items', JSON.stringify(items));
-            }, [items]);
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'cloth-card';
+                card.innerHTML = `
+                    <button class="delete-btn" onclick="deletePiece('${item.id}')"><i class="fa-solid fa-trash"></i></button>
+                    <div class="cloth-img-box">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="cloth-details">
+                        <span class="cloth-name">${item.name}</span>
+                        <div class="cloth-tags">
+                            <span class="tag-pink">${getCategoryLabel(item.category)}</span>
+                            <span class="tag-pink">✨ ${item.vibe}</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
-            // Adicionar item
-            const handleAddItem = (e) => {
-                e.preventDefault();
-                if (!newItem.name) return;
-                
-                const item = {
-                    id: Date.now(),
-                    name: newItem.name,
-                    category: newItem.category,
-                    color: newItem.color,
-                    favorite: false,
-                    image: newItem.image || "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=300"
+        function getCategoryLabel(cat) {
+            const map = { top: '👕 Top', bottom: '👖 Bottom', outerwear: '🧥 Casaco', shoes: '👠 Sapato', accessory: '🕶️ Acessório' };
+            return map[cat] || cat;
+        }
+
+        function filterCategory(cat, btn) {
+            currentCategoryFilter = cat;
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            renderCloset();
+        }
+
+        // MODAL E CÂMERA
+        function openAddModal() { 
+            document.getElementById('addModal').classList.add('active'); 
+        }
+
+        function closeAddModal() {
+            stopCamera();
+            document.getElementById('addModal').classList.remove('active');
+            document.getElementById('addPieceForm').reset();
+            capturedDataUrl = null;
+            document.getElementById('uploadBox').innerHTML = `<i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.2rem;"></i><span>Nenhuma foto tirada ou selecionada</span>`;
+        }
+
+        // Ligar Câmera ao vivo
+        async function startCamera() {
+            try {
+                const video = document.getElementById('webcamVideo');
+                mediaStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "environment" }
+                });
+                video.srcObject = mediaStream;
+                document.getElementById('cameraBox').style.display = 'block';
+            } catch (err) {
+                alert("Não foi possível acessar a câmera. Verifique se deu permissão no navegador!");
+                console.error(err);
+            }
+        }
+
+        // Capturar Foto
+        function takeSnapshot() {
+            const video = document.getElementById('webcamVideo');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth || 640;
+            canvas.height = video.videoHeight || 480;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            capturedDataUrl = canvas.toDataURL('image/png');
+            document.getElementById('uploadBox').innerHTML = `<img src="${capturedDataUrl}">`;
+            stopCamera();
+        }
+
+        function stopCamera() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+            document.getElementById('cameraBox').style.display = 'none';
+        }
+
+        function previewImage(e) {
+            stopCamera();
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    capturedDataUrl = null; // reseta foto capturada
+                    document.getElementById('uploadBox').innerHTML = `<img src="${evt.target.result}">`;
                 };
+                reader.readAsDataURL(file);
+            }
+        }
 
-                setItems([item, ...items]);
-                setNewItem({ name: "", category: "Partes de Cima", color: "#000000", image: "" });
-                setShowModal(false);
+        function handleAddPiece(e) {
+            e.preventDefault();
+            const name = document.getElementById('pieceName').value;
+            const category = document.getElementById('pieceCategory').value;
+            const vibe = document.getElementById('pieceVibe').value;
+            const imgInput = document.getElementById('pieceImage');
+
+            const savePiece = (imgSrc) => {
+                const newPiece = {
+                    id: Date.now().toString(),
+                    name, category, vibe,
+                    image: imgSrc
+                };
+                clothes.push(newPiece);
+                saveData();
+                renderCloset();
+                closeAddModal();
             };
 
-            // Alternar favorito
-            const toggleFavorite = (id) => {
-                setItems(items.map(item => item.id === id ? { ...item, favorite: !item.favorite } : item));
-            };
+            if (capturedDataUrl) {
+                savePiece(capturedDataUrl);
+            } else if (imgInput.files && imgInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    savePiece(evt.target.result);
+                };
+                reader.readAsDataURL(imgInput.files[0]);
+            } else {
+                alert("Por favor, tire uma foto ou escolha um arquivo da galeria!");
+            }
+        }
 
-            // Deletar item
-            const deleteItem = (id) => {
-                setItems(items.filter(item => item.id !== id));
-            };
+        function deletePiece(id) {
+            if (confirm("Deseja mesmo apagar esta peça do seu closet?")) {
+                clothes = clothes.filter(c => c.id !== id);
+                saveData();
+                renderCloset();
+            }
+        }
 
-            // Gerar Outfit Aleatório
-            const generateRandomOutfit = () => {
-                const tops = items.filter(i => i.category === "Partes de Cima" || i.category === "Casacos");
-                const bottoms = items.filter(i => i.category === "Partes de Baixo");
-                const shoes = items.filter(i => i.category === "Calçados");
+        // MONTADOR DE LOOKS (CHER MATCH)
+        function openPickerModal(slot) {
+            activeSlotForPicker = slot;
+            const modal = document.getElementById('pickerModal');
+            const grid = document.getElementById('pickerGrid');
+            document.getElementById('pickerTitle').innerText = `Escolha um(a) ${getCategoryLabel(slot)}`;
 
-                if (tops.length === 0 || bottoms.length === 0) {
-                    alert("Adicione pelo menos uma parte de cima e uma de baixo para gerar um look!");
+            grid.innerHTML = '';
+            const items = clothes.filter(c => c.category === slot);
+
+            if (items.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Nenhuma peça cadastrada nesta categoria!</p>`;
+            } else {
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'picker-card';
+                    card.onclick = () => selectPieceForSlot(item);
+                    card.innerHTML = `
+                        <img src="${item.image}">
+                        <span>${item.name}</span>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closePickerModal() { document.getElementById('pickerModal').classList.remove('active'); }
+
+        function selectPieceForSlot(item) {
+            currentStudioOutfit[activeSlotForPicker] = item;
+            updateStudioSlotUI(activeSlotForPicker, item);
+            closePickerModal();
+        }
+
+        function updateStudioSlotUI(slot, item) {
+            const labelEl = document.getElementById(`label-${slot}`);
+            const previewEl = document.getElementById(`slot-preview-${slot}`);
+
+            if (item) {
+                labelEl.innerText = item.name;
+                labelEl.style.color = "var(--pink-primary)";
+                labelEl.style.fontWeight = "bold";
+                previewEl.innerHTML = `<img src="${item.image}" class="slot-img-preview">`;
+            } else {
+                labelEl.innerText = "Nenhuma peça selecionada";
+                labelEl.style.color = "var(--text-muted)";
+                labelEl.style.fontWeight = "normal";
+                previewEl.innerHTML = '';
+            }
+        }
+
+        function clearStudioCanvas() {
+            currentStudioOutfit = { top: null, bottom: null, outerwear: null, shoes: null, accessory: null };
+            ['top', 'bottom', 'outerwear', 'shoes', 'accessory'].forEach(s => updateStudioSlotUI(s, null));
+        }
+
+        function generateRandomOutfit() {
+            const vibe = document.getElementById('studioVibe').value;
+            const weather = document.getElementById('studioWeather').value;
+
+            ['top', 'bottom', 'shoes', 'accessory', 'outerwear'].forEach(slot => {
+                let candidates = clothes.filter(c => c.category === slot);
+                const vibeMatches = candidates.filter(c => c.vibe === vibe);
+                if (vibeMatches.length > 0) candidates = vibeMatches;
+
+                if (slot === 'outerwear' && weather === 'hot') {
+                    currentStudioOutfit[slot] = null;
+                    updateStudioSlotUI(slot, null);
                     return;
                 }
 
-                const randomTop = tops[Math.floor(Math.random() * tops.length)];
-                const randomBottom = bottoms[Math.floor(Math.random() * bottoms.length)];
-                const randomShoe = shoes.length > 0 ? shoes[Math.floor(Math.random() * shoes.length)] : null;
-
-                setGeneratedOutfit({
-                    top: randomTop,
-                    bottom: randomBottom,
-                    shoe: randomShoe
-                });
-            };
-
-            // Itens filtrados
-            const filteredItems = items.filter(item => {
-                const matchesCategory = selectedCategory === "Todas" || item.category === selectedCategory;
-                const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-                return matchesCategory && matchesSearch;
+                if (candidates.length > 0) {
+                    const random = candidates[Math.floor(Math.random() * candidates.length)];
+                    currentStudioOutfit[slot] = random;
+                    updateStudioSlotUI(slot, random);
+                }
             });
-
-            return (
-                <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
-                    {/* Sidebar / Menu */}
-                    <aside className="w-full md:w-64 bg-indigo-900 text-white p-6 flex flex-col justify-between">
-                        <div>
-                            <div className="flex items-center space-x-3 mb-8">
-                                <i className="fa-solid fa-shirt text-2xl text-indigo-400"></i>
-                                <h1 className="text-xl font-bold tracking-wide">Meu Closet</h1>
-                            </div>
-
-                            <nav className="space-y-2">
-                                <button 
-                                    onClick={() => setActiveTab("closet")} 
-                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition ${activeTab === 'closet' ? 'bg-indigo-800 text-white' : 'text-indigo-200 hover:bg-indigo-800/50'}`}
-                                >
-                                    <i className="fa-solid fa-layer-group"></i>
-                                    <span>Meu Armário</span>
-                                </button>
-                                <button 
-                                    onClick={() => setActiveTab("outfits")} 
-                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition ${activeTab === 'outfits' ? 'bg-indigo-800 text-white' : 'text-indigo-200 hover:bg-indigo-800/50'}`}
-                                >
-                                    <i className="fa-solid fa-wand-magic-sparkles"></i>
-                                    <span>Gerador de Looks</span>
-                                </button>
-                            </nav>
-                        </div>
-
-                        <div className="pt-6 border-t border-indigo-800">
-                            <p className="text-xs text-indigo-300">Estudante Organizado &copy; 2026</p>
-                        </div>
-                    </aside>
-
-                    {/* Conteúdo Principal */}
-                    <main className="flex-1 p-6 md:p-10 max-w-7xl mx-auto">
-                        {activeTab === "closet" ? (
-                            <>
-                                {/* Header do Closet */}
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-                                    <div>
-                                        <h2 className="text-2xl font-bold text-slate-800">Suas Peças</h2>
-                                        <p className="text-slate-500 text-sm">Gerencie todas as roupas do seu guarda-roupa</p>
-                                    </div>
-                                    <button 
-                                        onClick={() => setShowModal(true)} 
-                                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg font-medium flex items-center justify-center space-x-2 transition shadow-sm"
-                                    >
-                                        <i className="fa-solid fa-plus"></i>
-                                        <span>Adicionar Peça</span>
-                                    </button>
-                                </div>
-
-                                {/* Filtros e Busca */}
-                                <div className="flex flex-col md:flex-row gap-4 mb-6">
-                                    <div className="relative flex-1">
-                                        <i className="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
-                                        <input 
-                                            type="text" 
-                                            placeholder="Buscar peça por nome..." 
-                                            value={searchTerm}
-                                            onChange={(e) => setSearchTerm(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        />
-                                    </div>
-                                    <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
-                                        {CATEGORIES.map(cat => (
-                                            <button
-                                                key={cat}
-                                                onClick={() => setSelectedCategory(cat)}
-                                                className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition ${selectedCategory === cat ? 'bg-indigo-600 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}
-                                            >
-                                                {cat}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Grid de Roupas */}
-                                {filteredItems.length === 0 ? (
-                                    <div className="text-center py-16 bg-white rounded-xl border border-slate-200">
-                                        <i className="fa-solid fa-box-open text-4xl text-slate-300 mb-3"></i>
-                                        <p className="text-slate-500 font-medium">Nenhuma peça encontrada.</p>
-                                    </div>
-                                ) : (
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                                        {filteredItems.map(item => (
-                                            <div key={item.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden group hover:shadow-md transition">
-                                                <div className="relative h-48 bg-slate-100 overflow-hidden">
-                                                    <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
-                                                    <button 
-                                                        onClick={() => toggleFavorite(item.id)}
-                                                        className="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-sm text-slate-600 hover:text-red-500 transition"
-                                                    >
-                                                        <i className={`${item.favorite ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart`}></i>
-                                                    </button>
-                                                    <span className="absolute bottom-3 left-3 bg-slate-900/70 text-white text-xs px-2.5 py-1 rounded-full backdrop-blur-sm">
-                                                        {item.category}
-                                                    </span>
-                                                </div>
-                                                <div className="p-4 flex justify-between items-center">
-                                                    <div>
-                                                        <h3 className="font-semibold text-slate-800 text-sm line-clamp-1">{item.name}</h3>
-                                                        <div className="flex items-center space-x-2 mt-1">
-                                                            <span className="w-3 h-3 rounded-full border border-slate-300" style={{ backgroundColor: item.color }}></span>
-                                                        </div>
-                                                    </div>
-                                                    <button 
-                                                        onClick={() => deleteItem(item.id)}
-                                                        className="text-slate-400 hover:text-red-500 p-1 transition"
-                                                    >
-                                                        <i className="fa-solid fa-trash-can"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </>
-                        ) : (
-                            /* Gerador de Outfits */
-                            <div className="max-w-2xl mx-auto text-center py-8">
-                                <h2 className="text-2xl font-bold text-slate-800 mb-2">Gerador de Looks Diários</h2>
-                                <p className="text-slate-500 mb-8">Monte uma combinação aleatória perfeita para o dia de aula!</p>
-
-                                <button 
-                                    onClick={generateRandomOutfit}
-                                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-medium shadow-md hover:shadow-lg transition flex items-center justify-center space-x-2 mx-auto mb-10"
-                                >
-                                    <i className="fa-solid fa-dice"></i>
-                                    <span>Sortear Combinação</span>
-                                </button>
-
-                                {generatedOutfit && (
-                                    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                                        <h3 className="text-lg font-semibold text-slate-800 mb-6">Sua Combinação Recomendada</h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                            {generatedOutfit.top && (
-                                                <div className="border border-slate-100 rounded-lg p-3 bg-slate-50">
-                                                    <img src={generatedOutfit.top.image} className="w-full h-32 object-cover rounded-md mb-2" />
-                                                    <p className="text-xs font-semibold text-indigo-600">PARTE DE CIMA</p>
-                                                    <p className="text-sm font-medium text-slate-800 line-clamp-1">{generatedOutfit.top.name}</p>
-                                                </div>
-                                            )}
-                                            {generatedOutfit.bottom && (
-                                                <div className="border border-slate-100 rounded-lg p-3 bg-slate-50">
-                                                    <img src={generatedOutfit.bottom.image} className="w-full h-32 object-cover rounded-md mb-2" />
-                                                    <p className="text-xs font-semibold text-indigo-600">PARTE DE BAIXO</p>
-                                                    <p className="text-sm font-medium text-slate-800 line-clamp-1">{generatedOutfit.bottom.name}</p>
-                                                </div>
-                                            )}
-                                            {generatedOutfit.shoe && (
-                                                <div className="border border-slate-100 rounded-lg p-3 bg-slate-50">
-                                                    <img src={generatedOutfit.shoe.image} className="w-full h-32 object-cover rounded-md mb-2" />
-                                                    <p className="text-xs font-semibold text-indigo-600">CALÇADO</p>
-                                                    <p className="text-sm font-medium text-slate-800 line-clamp-1">{generatedOutfit.shoe.name}</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </main>
-
-                    {/* Modal Adicionar Peça */}
-                    {showModal && (
-                        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
-                                <div className="flex justify-between items-center mb-4">
-                                    <h3 className="text-lg font-bold text-slate-800">Nova Peça de Roupa</h3>
-                                    <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600">
-                                        <i className="fa-solid fa-xmark text-lg"></i>
-                                    </button>
-                                </div>
-                                <form onSubmit={handleAddItem} className="space-y-4">
-                                    <div>
-                                        <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">Nome da Peça</label>
-                                        <input 
-                                            type="text" 
-                                            required
-                                            placeholder="Ex: Blusa Preta Oversized" 
-                                            value={newItem.name} 
-                                            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">Categoria</label>
-                                        <select 
-                                            value={newItem.category} 
-                                            onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                                        >
-                                            {CATEGORIES.filter(c => c !== "Todas").map(c => (
-                                                <option key={c} value={c}>{c}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">URL da Imagem (opcional)</label>
-                                        <input 
-                                            type="url" 
-                                            placeholder="https://exemplo.com/imagem.jpg" 
-                                            value={newItem.image} 
-                                            onChange={(e) => setNewItem({ ...newItem, image: e.target.value })}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
-                                        />
-                                    </div>
-                                    <div className="flex justify-end space-x-3 pt-4">
-                                        <button 
-                                            type="button" 
-                                            onClick={() => setShowModal(false)}
-                                            className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg"
-                                        >
-                                            Cancelar
-                                        </button>
-                                        <button 
-                                            type="submit" 
-                                            className="px-4 py-2 text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 rounded-lg"
-                                        >
-                                            Salvar Peça
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
         }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        // SALVAR LOOK
+        function saveCurrentOutfit() {
+            const name = document.getElementById('outfitNameInput').value || 'Fit Glam';
+            
+            if (!currentStudioOutfit.top && !currentStudioOutfit.bottom) {
+                alert('Escolha ao menos uma roupa para o seu look!');
+                return;
+            }
+
+            const newOutfit = {
+                id: Date.now().toString(),
+                title: name,
+                items: { ...currentStudioOutfit }
+            };
+
+            outfits.push(newOutfit);
+            saveData();
+            renderLookbook();
+            alert('Look salvo na sua galeria de Favoritos! ❤️');
+        }
+
+        // FAVORITOS / LOOKBOOK
+        function renderLookbook() {
+            const grid = document.getElementById('lookbookGrid');
+            grid.innerHTML = '';
+
+            if (outfits.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); font-weight: bold; padding: 2rem;">Nenhum look salvo nos Favoritos ainda. Monte o seu na aba Cher's Match! ✨</p>`;
+                return;
+            }
+
+            outfits.forEach(outfit => {
+                const card = document.createElement('div');
+                card.className = 'lookbook-card';
+
+                let thumbs = '';
+                Object.values(outfit.items).forEach(item => {
+                    if (item) thumbs += `<img src="${item.image}" class="lookbook-thumb-img">`;
+                });
+
+                card.innerHTML = `
+                    <div style="display:flex; justify-content: space-between; align-items:center;">
+                        <h3 class="lookbook-title">${outfit.title}</h3>
+                        <button class="delete-btn" style="position:static;" onclick="deleteOutfit('${outfit.id}')"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div class="lookbook-thumbs">${thumbs}</div>
+                    <button class="btn btn-secondary" style="width:100%; justify-content:center;" onclick="assignToWeek('${outfit.id}')">
+                        <i class="fa-solid fa-calendar-plus"></i> Usar na Semana
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function deleteOutfit(id) {
+            if (confirm("Remover este look dos favoritos?")) {
+                outfits = outfits.filter(o => o.id !== id);
+                saveData();
+                renderLookbook();
+            }
+        }
+
+        // AGENDA SEMANAL
+        function assignToWeek(outfitId) {
+            const day = prompt("Digite o dia para agendar esse fit (seg, ter, qua, qui, sex, sab, dom):");
+            if (day && weeklyPlan.hasOwnProperty(day.toLowerCase())) {
+                const fit = outfits.find(o => o.id === outfitId);
+                weeklyPlan[day.toLowerCase()] = fit;
+                saveData();
+                renderWeeklyPlanner();
+                alert(`Fit agendado para ${day.toUpperCase()}! 🗓️✨`);
+            } else if (day) {
+                alert("Dia inválido! Digite: seg, ter, qua, qui, sex, sab ou dom.");
+            }
+        }
+
+        function renderWeeklyPlanner() {
+            const days = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+            days.forEach(day => {
+                const container = document.getElementById(`day-${day}`);
+                const fit = weeklyPlan[day];
+
+                if (fit) {
+                    let thumbs = '';
+                    Object.values(fit.items).forEach(item => {
+                        if (item) thumbs += `<img src="${item.image}" style="width:28px; height:28px; border-radius:6px; object-fit:cover;">`;
+                    });
+
+                    container.innerHTML = `
+                        <span style="font-weight:bold; font-size:0.85rem; color:var(--pink-primary); text-align:center;">${fit.title}</span>
+                        <div style="display:flex; gap:3px; flex-wrap:wrap; justify-content:center;">${thumbs}</div>
+                        <button class="btn btn-secondary" style="padding: 0.2rem 0.6rem; font-size:0.7rem;" onclick="removeFromWeek('${day}')">Remover</button>
+                    `;
+                } else {
+                    container.innerHTML = `<span style="font-size:0.8rem; color: var(--text-muted);">Livre</span>`;
+                }
+            });
+        }
+
+        function removeFromWeek(day) {
+            weeklyPlan[day] = null;
+            saveData();
+            renderWeeklyPlanner();
+        }
     </script>
 </body>
 </html>
