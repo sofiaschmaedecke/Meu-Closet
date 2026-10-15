@@ -279,6 +279,7 @@
             justify-content: center;
             overflow: hidden;
             padding: 0.8rem;
+            position: relative;
         }
 
         .cloth-img-box img {
@@ -323,29 +324,32 @@
             border-radius: 12px;
         }
 
+        /* BOTÃO DE EXCLUIR NA FRENTE E DESTACADO */
         .delete-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 34px;
-            height: 34px;
+            top: 12px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            border: none;
+            border: 2px solid var(--pink-light);
             background: white;
-            color: var(--pink-primary);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            color: #d62860;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            z-index: 10; /* Garante que fique acima da foto */
         }
 
         .delete-btn:hover {
-            background: var(--pink-primary);
+            background: #ff4785;
             color: white;
-            transform: scale(1.15);
+            border-color: #ff4785;
+            transform: scale(1.15) rotate(8deg);
         }
 
         /* MONTADOR DE LOOKS */
@@ -892,7 +896,6 @@
                 <div class="form-group">
                     <label>Imagem da Peça:</label>
                     
-                    <!-- BOTÕES DE CÂMERA OU GALERIA -->
                     <div style="display:flex; gap:0.6rem; margin-bottom: 0.5rem;">
                         <button type="button" class="btn btn-primary" style="flex:1; padding: 0.5rem; font-size: 0.85rem;" onclick="startCamera()">
                             <i class="fa-solid fa-camera"></i> Tirar Foto
@@ -902,7 +905,6 @@
                         </button>
                     </div>
 
-                    <!-- CAMERA AO VIVO -->
                     <div id="cameraBox" style="display:none; text-align:center; margin-bottom: 0.5rem;">
                         <video id="webcamVideo" autoplay playsinline style="width: 100%; border-radius: 14px; max-height: 200px; background: #000; border: 2px solid var(--pink-primary);"></video>
                         <button type="button" class="btn btn-yellow" onclick="takeSnapshot()" style="margin-top: 0.5rem; width: 100%; justify-content: center;">
@@ -910,13 +912,11 @@
                         </button>
                     </div>
 
-                    <!-- PREVIEW DA FOTO SELECIONADA OU TIRADA -->
                     <div class="image-preview-box" id="uploadBox">
                         <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.2rem;"></i>
                         <span>Nenhuma foto tirada ou selecionada</span>
                     </div>
 
-                    <!-- INPUT DE ARQUIVO (OCULTO) -->
                     <input type="file" id="pieceImage" accept="image/*" style="display:none;" onchange="previewImage(event)">
                 </div>
 
@@ -960,7 +960,6 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        // ESTADO DA APLICAÇÃO
         let clothes = [];
         let outfits = [];
         let weeklyPlan = { seg: null, ter: null, qua: null, qui: null, sex: null, sab: null, dom: null };
@@ -968,11 +967,9 @@
         let currentStudioOutfit = { top: null, bottom: null, outerwear: null, shoes: null, accessory: null };
         let activeSlotForPicker = null;
 
-        // CÂMERA VARS
         let mediaStream = null;
         let capturedDataUrl = null;
 
-        // EXEMPLOS INICIAIS
         const defaultClothes = [
             { id: '1', name: 'Conjunto Xadrez Amarelo', category: 'top', vibe: 'facul', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400' },
             { id: '2', name: 'Saia Plissada Rosa', category: 'bottom', vibe: 'facul', image: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400' },
@@ -988,7 +985,6 @@
             renderWeeklyPlanner();
         });
 
-        // NAVEGAÇÃO ENTRE ABAS
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -997,7 +993,6 @@
             event.currentTarget.classList.add('active');
         }
 
-        // LOCALSTORAGE
         function loadData() {
             const savedClothes = localStorage.getItem('dti_clothes');
             clothes = savedClothes ? JSON.parse(savedClothes) : defaultClothes;
@@ -1015,7 +1010,6 @@
             localStorage.setItem('dti_weekly', JSON.stringify(weeklyPlan));
         }
 
-        // RENDERIZAR CLOSET
         function renderCloset() {
             const grid = document.getElementById('closetGrid');
             grid.innerHTML = '';
@@ -1037,7 +1031,9 @@
                 const card = document.createElement('div');
                 card.className = 'cloth-card';
                 card.innerHTML = `
-                    <button class="delete-btn" onclick="deletePiece('${item.id}')"><i class="fa-solid fa-trash"></i></button>
+                    <button class="delete-btn" onclick="deletePiece('${item.id}')" title="Excluir peça">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                     <div class="cloth-img-box">
                         <img src="${item.image}" alt="${item.name}">
                     </div>
@@ -1065,7 +1061,6 @@
             renderCloset();
         }
 
-        // MODAL E CÂMERA
         function openAddModal() { 
             document.getElementById('addModal').classList.add('active'); 
         }
@@ -1078,7 +1073,6 @@
             document.getElementById('uploadBox').innerHTML = `<i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.2rem;"></i><span>Nenhuma foto tirada ou selecionada</span>`;
         }
 
-        // Ligar Câmera ao vivo
         async function startCamera() {
             try {
                 const video = document.getElementById('webcamVideo');
@@ -1093,7 +1087,6 @@
             }
         }
 
-        // Capturar Foto
         function takeSnapshot() {
             const video = document.getElementById('webcamVideo');
             const canvas = document.createElement('canvas');
@@ -1122,7 +1115,7 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(evt) {
-                    capturedDataUrl = null; // reseta foto capturada
+                    capturedDataUrl = null;
                     document.getElementById('uploadBox').innerHTML = `<img src="${evt.target.result}">`;
                 };
                 reader.readAsDataURL(file);
@@ -1169,7 +1162,6 @@
             }
         }
 
-        // MONTADOR DE LOOKS (CHER MATCH)
         function openPickerModal(slot) {
             activeSlotForPicker = slot;
             const modal = document.getElementById('pickerModal');
@@ -1250,7 +1242,6 @@
             });
         }
 
-        // SALVAR LOOK
         function saveCurrentOutfit() {
             const name = document.getElementById('outfitNameInput').value || 'Fit Glam';
             
@@ -1271,7 +1262,6 @@
             alert('Look salvo na sua galeria de Favoritos! ❤️');
         }
 
-        // FAVORITOS / LOOKBOOK
         function renderLookbook() {
             const grid = document.getElementById('lookbookGrid');
             grid.innerHTML = '';
@@ -1291,7 +1281,7 @@
                 });
 
                 card.innerHTML = `
-                    <div style="display:flex; justify-content: space-between; align-items:center;">
+                    <div style="display:flex; justify-size: space-between; align-items:center;">
                         <h3 class="lookbook-title">${outfit.title}</h3>
                         <button class="delete-btn" style="position:static;" onclick="deleteOutfit('${outfit.id}')"><i class="fa-solid fa-trash"></i></button>
                     </div>
@@ -1312,7 +1302,6 @@
             }
         }
 
-        // AGENDA SEMANAL
         function assignToWeek(outfitId) {
             const day = prompt("Digite o dia para agendar esse fit (seg, ter, qua, qui, sex, sab, dom):");
             if (day && weeklyPlan.hasOwnProperty(day.toLowerCase())) {
