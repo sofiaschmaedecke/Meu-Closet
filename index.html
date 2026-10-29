@@ -1397,3 +1397,69 @@
                 const card = document.createElement('div');
                 card.className = 'lookbook-card';
                 let thumbs = '';
+                Object.values(outfit.items).forEach(item => {
+                    if (item) thumbs += `<img src="${item.image}" class="lookbook-thumb-img">`;
+                });
+
+                card.innerHTML = `
+                    <div style="display:flex; justify-content: space-between; align-items:center;">
+                        <h3 class="lookbook-title">${outfit.title}</h3>
+                        <button class="delete-btn" style="position:static;" onclick="deleteOutfit('${outfit.id}')"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div class="lookbook-thumbs">${thumbs}</div>
+                    <button class="btn btn-secondary" style="width:100%; justify-content:center;" onclick="assignToWeek('${outfit.id}')">
+                        <i class="fa-solid fa-calendar-plus"></i> Usar na Semana
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function deleteOutfit(id) {
+            if (confirm("Remover este look dos favoritos?")) {
+                outfits = outfits.filter(o => o.id !== id);
+                saveData();
+                renderLookbook();
+            }
+        }
+
+        function assignToWeek(outfitId) {
+            const day = prompt("Digite o dia para agendar esse fit (seg, ter, qua, qui, sex, sab, dom):");
+            if (day && weeklyPlan.hasOwnProperty(day.toLowerCase())) {
+                const fit = outfits.find(o => o.id === outfitId);
+                weeklyPlan[day.toLowerCase()] = fit;
+                saveData();
+                renderWeeklyPlanner();
+                alert(`Fit agendado para ${day.toUpperCase()}! 🗓️✨`);
+            } else if (day) alert("Dia inválido! Digite: seg, ter, qua, qui, sex, sab ou dom.");
+        }
+
+        function renderWeeklyPlanner() {
+            const days = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+            days.forEach(day => {
+                const container = document.getElementById(`day-${day}`);
+                const fit = weeklyPlan[day];
+
+                if (fit) {
+                    let thumbs = '';
+                    Object.values(fit.items).forEach(item => {
+                        if (item) thumbs += `<img src="${item.image}" style="width:28px; height:28px; border-radius:6px; object-fit:cover;">`;
+                    });
+
+                    container.innerHTML = `
+                        <span style="font-weight:bold; font-size:0.85rem; color:var(--pink-primary); text-align:center;">${fit.title}</span>
+                        <div style="display:flex; gap:3px; flex-wrap:wrap; justify-content:center;">${thumbs}</div>
+                        <button class="btn btn-secondary" style="padding: 0.2rem 0.6rem; font-size:0.7rem;" onclick="removeFromWeek('${day}')">Remover</button>
+                    `;
+                } else container.innerHTML = `<span style="font-size:0.8rem; color: var(--text-muted);">Livre</span>`;
+            });
+        }
+
+        function removeFromWeek(day) {
+            weeklyPlan[day] = null;
+            saveData();
+            renderWeeklyPlanner();
+        }
+    </script>
+</body>
+</html>
