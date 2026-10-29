@@ -15,6 +15,7 @@
             --pink-light: #ffb8d2;
             --pink-accent: #ff85b3;
             --yellow-accent: #fff07c;
+            --purple-accent: #9b59b6;
             --text-dark: #4a2c3d;
             --text-muted: #8c6b7d;
             --plaid-pattern: repeating-linear-gradient(45deg, rgba(255,184,210,0.2) 0px, rgba(255,184,210,0.2) 15px, rgba(255,255,255,0.2) 15px, rgba(255,255,255,0.2) 30px);
@@ -189,12 +190,18 @@
             color: var(--text-dark);
         }
 
+        .btn-purple {
+            background: linear-gradient(135deg, #a55eea, #8854d0);
+            color: white;
+        }
+
         .btn-group {
             display: flex;
             gap: 0.8rem;
+            flex-wrap: wrap;
         }
 
-        /* FILTROS */
+        /* FILTROS & PASTAS */
         .filter-card {
             background: var(--pink-card);
             border-radius: var(--radius-lg);
@@ -203,10 +210,16 @@
             box-shadow: var(--shadow-soft);
             border: 2px solid #ffe1ed;
             display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .filter-row {
+            display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1.2rem;
+            gap: 1rem;
         }
 
         .chips-container {
@@ -324,7 +337,15 @@
             border-radius: 12px;
         }
 
-        /* BOTÃO DE EXCLUIR NA FRENTE E DESTACADO */
+        .tag-folder {
+            background: #f3e5f5;
+            color: #8e24aa;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.7rem;
+            border-radius: 12px;
+        }
+
         .delete-btn {
             position: absolute;
             top: 12px;
@@ -342,7 +363,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1rem;
-            z-index: 10; /* Garante que fique acima da foto */
+            z-index: 10;
         }
 
         .delete-btn:hover {
@@ -710,30 +731,46 @@
             <div class="section-header">
                 <div>
                     <h1 class="section-title">Meu Armário Virtual 💅</h1>
-                    <p class="section-desc">Cadastre suas roupas tirando foto ou enviando da galeria!</p>
+                    <p class="section-desc">Organize por categorias, crie pastas personalizadas e adicione roupas!</p>
                 </div>
-                <button class="btn btn-primary" onclick="openAddModal()">
-                    <i class="fa-solid fa-plus"></i> Adicionar Peça
-                </button>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="openFolderModal()">
+                        <i class="fa-solid fa-folder-plus"></i> Nova Pasta
+                    </button>
+                    <button class="btn btn-primary" onclick="openAddModal()">
+                        <i class="fa-solid fa-plus"></i> Adicionar Peça
+                    </button>
+                </div>
             </div>
 
             <div class="filter-card">
-                <div class="chips-container">
-                    <button class="chip active" onclick="filterCategory('all', this)">Todas</button>
-                    <button class="chip" onclick="filterCategory('top', this)">👚 Tops</button>
-                    <button class="chip" onclick="filterCategory('bottom', this)">👖 Bottoms</button>
-                    <button class="chip" onclick="filterCategory('outerwear', this)">🧥 Casacos</button>
-                    <button class="chip" onclick="filterCategory('shoes', this)">👠 Sapatos</button>
-                    <button class="chip" onclick="filterCategory('accessory', this)">🕶️ Acessórios</button>
+                <div class="filter-row">
+                    <div class="chips-container">
+                        <button class="chip active" onclick="filterCategory('all', this)">Todas Peças</button>
+                        <button class="chip" onclick="filterCategory('top', this)">👚 Tops</button>
+                        <button class="chip" onclick="filterCategory('bottom', this)">👖 Bottoms</button>
+                        <button class="chip" onclick="filterCategory('outerwear', this)">🧥 Casacos</button>
+                        <button class="chip" onclick="filterCategory('shoes', this)">👠 Sapatos</button>
+                        <button class="chip" onclick="filterCategory('accessory', this)">🕶️ Acessórios</button>
+                    </div>
                 </div>
-                <div>
-                    <select id="vibeFilter" class="select-pink" onchange="renderCloset()">
-                        <option value="all">Todas as Vibes ✨</option>
-                        <option value="facul">📚 Faculdade Chic</option>
-                        <option value="role">🎉 Party Girl / Rolê</option>
-                        <option value="casual">😎 Casual Glam</option>
-                        <option value="frio">❄️ Inverno Aconchegante</option>
-                    </select>
+
+                <div class="filter-row">
+                    <div style="display:flex; gap: 0.8rem; flex-wrap:wrap; align-items:center;">
+                        <span style="font-weight:bold; font-size:0.85rem; color:var(--text-dark);"><i class="fa-solid fa-folder"></i> Pasta:</span>
+                        <select id="folderFilter" class="select-pink" onchange="renderCloset()">
+                            <option value="all">Todas as Pastas 📁</option>
+                        </select>
+
+                        <span style="font-weight:bold; font-size:0.85rem; color:var(--text-dark); margin-left: 0.5rem;"><i class="fa-solid fa-sparkles"></i> Vibe:</span>
+                        <select id="vibeFilter" class="select-pink" onchange="renderCloset()">
+                            <option value="all">Todas as Vibes ✨</option>
+                            <option value="facul">📚 Faculdade Chic</option>
+                            <option value="role">🎉 Party Girl / Rolê</option>
+                            <option value="casual">😎 Casual Glam</option>
+                            <option value="frio">❄️ Inverno Aconchegante</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -745,11 +782,14 @@
             <div class="section-header">
                 <div>
                     <h1 class="section-title">Cher's Closet Matcher 💻</h1>
-                    <p class="section-desc">Seu computador pessoal de estilo igual ao filme Patricinhas de Beverly Hills!</p>
+                    <p class="section-desc">Seu computador pessoal de estilo ou monte um look inspiração do aplicativo!</p>
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-yellow" onclick="generateRandomOutfit()">
-                        <i class="fa-solid fa-dice"></i> Combination Matcher!
+                        <i class="fa-solid fa-dice"></i> Match Meu Closet!
+                    </button>
+                    <button class="btn btn-purple" onclick="generateExternalAppOutfit()">
+                        <i class="fa-solid fa-wand-sparkles"></i> Criar Fit Externo (Inédito!) ✨
                     </button>
                     <button class="btn btn-primary" onclick="saveCurrentOutfit()">
                         <i class="fa-solid fa-heart"></i> Salvar Look
@@ -828,7 +868,7 @@
                         <label>Ocasião / Vibe:</label>
                         <select id="studioVibe" class="select-pink">
                             <option value="facul">📚 Faculdade Chic</option>
-                            <option value="role">🎉 Rolê / Festa</option>
+                            <option value="role">🎉 Party Girl / Rolê</option>
                             <option value="casual">😎 Casual</option>
                         </select>
                     </div>
@@ -880,6 +920,26 @@
 
     </main>
 
+    <!-- MODAL: CRIAR PASTA -->
+    <div class="modal" id="folderModal">
+        <div class="modal-body">
+            <div class="modal-header">
+                <h2 style="font-family: 'Fredoka', cursive; color: var(--pink-primary);">Nova Pasta do Closet 📁</h2>
+                <button class="close-modal-btn" onclick="closeFolderModal()">&times;</button>
+            </div>
+            <form onsubmit="handleCreateFolder(event)">
+                <div class="form-group">
+                    <label>Nome da Pasta / Categoria:</label>
+                    <input type="text" id="folderNameInput" class="input-pink" placeholder="Ex: Roupas de Prova, Viagem Praia, Festas..." required>
+                </div>
+                <div style="display:flex; justify-content: flex-end; gap: 0.8rem; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeFolderModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Criar Pasta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL: NOVA PEÇA COM RECURSO DE CÂMERA -->
     <div class="modal" id="addModal">
         <div class="modal-body">
@@ -895,7 +955,6 @@
 
                 <div class="form-group">
                     <label>Imagem da Peça:</label>
-                    
                     <div style="display:flex; gap:0.6rem; margin-bottom: 0.5rem;">
                         <button type="button" class="btn btn-primary" style="flex:1; padding: 0.5rem; font-size: 0.85rem;" onclick="startCamera()">
                             <i class="fa-solid fa-camera"></i> Tirar Foto
@@ -921,6 +980,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Pasta / Organização:</label>
+                    <select id="pieceFolder" class="select-pink">
+                        <option value="Geral">📁 Geral (Sem pasta)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label>Categoria:</label>
                     <select id="pieceCategory" class="select-pink" required>
                         <option value="top">👚 Top / Blusa</option>
@@ -930,6 +996,7 @@
                         <option value="accessory">🕶️ Acessório / Bolsa</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label>Vibe Principal:</label>
                     <select id="pieceVibe" class="select-pink" required>
@@ -939,6 +1006,7 @@
                         <option value="frio">❄️ Inverno</option>
                     </select>
                 </div>
+
                 <div style="display:flex; justify-content: flex-end; gap: 0.8rem; margin-top: 1.5rem;">
                     <button type="button" class="btn btn-secondary" onclick="closeAddModal()">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Salvar no Closet</button>
@@ -962,6 +1030,7 @@
     <script>
         let clothes = [];
         let outfits = [];
+        let folders = ["Geral", "Faculdade", "Rolês & Festas"];
         let weeklyPlan = { seg: null, ter: null, qua: null, qui: null, sex: null, sab: null, dom: null };
         let currentCategoryFilter = 'all';
         let currentStudioOutfit = { top: null, bottom: null, outerwear: null, shoes: null, accessory: null };
@@ -970,16 +1039,41 @@
         let mediaStream = null;
         let capturedDataUrl = null;
 
+        // BANCO EXTERNO DE ROUPAS SUGERIDAS PELO APLICATIVO (OUTFITS INÉDITOS DA IA DO APP)
+        const appGeneratedOutfits = [
+            {
+                name: "Fit Tendência Y2K Pop ✨",
+                items: {
+                    top: { name: "Cropped Mesh Estampa Pop", image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=400" },
+                    bottom: { name: "Calça Cargo Pink Baggy", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400" },
+                    outerwear: { name: "Jaqueta Puffer Violeta", image: "https://images.unsplash.com/photo-1544441893-675973e31985?w=400" },
+                    shoes: { name: "Chunky Sneakers Prata", image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" },
+                    accessory: { name: "Bolsa Baguette Metalizada", image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400" }
+                }
+            },
+            {
+                name: "Look Parisienne Chic 💅",
+                items: {
+                    top: { name: "Tricot Listrado Clássico", image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=400" },
+                    bottom: { name: "Minissaia de Couro Preta", image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400" },
+                    outerwear: { name: "Trench Coat Bege Elegante", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" },
+                    shoes: { name: "Mocassim Tratorado Verniz", image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400" },
+                    accessory: { name: "Boina e Óculos Cat-Eye", image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400" }
+                }
+            }
+        ];
+
         const defaultClothes = [
-            { id: '1', name: 'Conjunto Xadrez Amarelo', category: 'top', vibe: 'facul', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400' },
-            { id: '2', name: 'Saia Plissada Rosa', category: 'bottom', vibe: 'facul', image: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400' },
-            { id: '3', name: 'Salto Plataforma Branco', category: 'shoes', vibe: 'role', image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400' },
-            { id: '4', name: 'Oversized Blazer Pink', category: 'outerwear', vibe: 'facul', image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400' },
-            { id: '5', name: 'Óculos Estilo Anos 90', category: 'accessory', vibe: 'casual', image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400' }
+            { id: '1', name: 'Conjunto Xadrez Amarelo', category: 'top', vibe: 'facul', folder: 'Faculdade', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400' },
+            { id: '2', name: 'Saia Plissada Rosa', category: 'bottom', vibe: 'facul', folder: 'Faculdade', image: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400' },
+            { id: '3', name: 'Salto Plataforma Branco', category: 'shoes', vibe: 'role', folder: 'Rolês & Festas', image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400' },
+            { id: '4', name: 'Oversized Blazer Pink', category: 'outerwear', vibe: 'facul', folder: 'Geral', image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400' },
+            { id: '5', name: 'Óculos Estilo Anos 90', category: 'accessory', vibe: 'casual', folder: 'Rolês & Festas', image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400' }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
             loadData();
+            updateFolderDropdowns();
             renderCloset();
             renderLookbook();
             renderWeeklyPlanner();
@@ -997,6 +1091,9 @@
             const savedClothes = localStorage.getItem('dti_clothes');
             clothes = savedClothes ? JSON.parse(savedClothes) : defaultClothes;
 
+            const savedFolders = localStorage.getItem('dti_folders');
+            if (savedFolders) folders = JSON.parse(savedFolders);
+
             const savedOutfits = localStorage.getItem('dti_outfits');
             outfits = savedOutfits ? JSON.parse(savedOutfits) : [];
 
@@ -1006,24 +1103,57 @@
 
         function saveData() {
             localStorage.setItem('dti_clothes', JSON.stringify(clothes));
+            localStorage.setItem('dti_folders', JSON.stringify(folders));
             localStorage.setItem('dti_outfits', JSON.stringify(outfits));
             localStorage.setItem('dti_weekly', JSON.stringify(weeklyPlan));
         }
 
+        /* PASTAS */
+        function openFolderModal() { document.getElementById('folderModal').classList.add('active'); }
+        function closeFolderModal() { document.getElementById('folderModal').classList.remove('active'); }
+
+        function handleCreateFolder(e) {
+            e.preventDefault();
+            const name = document.getElementById('folderNameInput').value.trim();
+            if (name && !folders.includes(name)) {
+                folders.push(name);
+                saveData();
+                updateFolderDropdowns();
+                closeFolderModal();
+                alert(`Pasta "${name}" criada com sucesso! 📁✨`);
+            }
+        }
+
+        function updateFolderDropdowns() {
+            const filterSelect = document.getElementById('folderFilter');
+            const pieceSelect = document.getElementById('pieceFolder');
+
+            filterSelect.innerHTML = `<option value="all">Todas as Pastas 📁</option>`;
+            pieceSelect.innerHTML = ``;
+
+            folders.forEach(f => {
+                filterSelect.innerHTML += `<option value="${f}">📁 ${f}</option>`;
+                pieceSelect.innerHTML += `<option value="${f}">📁 ${f}</option>`;
+            });
+        }
+
+        /* CLOSET & FILTROS */
         function renderCloset() {
             const grid = document.getElementById('closetGrid');
             grid.innerHTML = '';
 
             const vibeFilter = document.getElementById('vibeFilter').value;
+            const folderFilter = document.getElementById('folderFilter').value;
 
             const filtered = clothes.filter(item => {
                 const matchCat = currentCategoryFilter === 'all' || item.category === currentCategoryFilter;
                 const matchVibe = vibeFilter === 'all' || item.vibe === vibeFilter;
-                return matchCat && matchVibe;
+                const matchFolder = folderFilter === 'all' || (item.folder || 'Geral') === folderFilter;
+                return matchCat && matchVibe && matchFolder;
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; font-weight: bold; color: var(--text-muted); padding: 3rem;">Nenhuma peça encontrada nessa categoria! 💕</p>`;
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; font-weight: bold; color: var(--text-muted); padding: 3rem;">Nenhuma peça encontrada nessa categoria/pasta! 💕</p>`;
                 return;
             }
 
@@ -1041,6 +1171,7 @@
                         <span class="cloth-name">${item.name}</span>
                         <div class="cloth-tags">
                             <span class="tag-pink">${getCategoryLabel(item.category)}</span>
+                            <span class="tag-folder">📁 ${item.folder || 'Geral'}</span>
                             <span class="tag-pink">✨ ${item.vibe}</span>
                         </div>
                     </div>
@@ -1061,10 +1192,8 @@
             renderCloset();
         }
 
-        function openAddModal() { 
-            document.getElementById('addModal').classList.add('active'); 
-        }
-
+        /* CÂMERA & ADICIONAR ROUPA */
+        function openAddModal() { document.getElementById('addModal').classList.add('active'); }
         function closeAddModal() {
             stopCamera();
             document.getElementById('addModal').classList.remove('active');
@@ -1076,14 +1205,11 @@
         async function startCamera() {
             try {
                 const video = document.getElementById('webcamVideo');
-                mediaStream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { facingMode: "environment" }
-                });
+                mediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
                 video.srcObject = mediaStream;
                 document.getElementById('cameraBox').style.display = 'block';
             } catch (err) {
-                alert("Não foi possível acessar a câmera. Verifique se deu permissão no navegador!");
-                console.error(err);
+                alert("Não foi possível acessar a câmera!");
             }
         }
 
@@ -1092,10 +1218,8 @@
             const canvas = document.createElement('canvas');
             canvas.width = video.videoWidth || 640;
             canvas.height = video.videoHeight || 480;
-
             const ctx = canvas.getContext('2d');
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
             capturedDataUrl = canvas.toDataURL('image/png');
             document.getElementById('uploadBox').innerHTML = `<img src="${capturedDataUrl}">`;
             stopCamera();
@@ -1127,41 +1251,34 @@
             const name = document.getElementById('pieceName').value;
             const category = document.getElementById('pieceCategory').value;
             const vibe = document.getElementById('pieceVibe').value;
+            const folder = document.getElementById('pieceFolder').value;
             const imgInput = document.getElementById('pieceImage');
 
             const savePiece = (imgSrc) => {
-                const newPiece = {
-                    id: Date.now().toString(),
-                    name, category, vibe,
-                    image: imgSrc
-                };
+                const newPiece = { id: Date.now().toString(), name, category, vibe, folder, image: imgSrc };
                 clothes.push(newPiece);
                 saveData();
                 renderCloset();
                 closeAddModal();
             };
 
-            if (capturedDataUrl) {
-                savePiece(capturedDataUrl);
-            } else if (imgInput.files && imgInput.files[0]) {
+            if (capturedDataUrl) savePiece(capturedDataUrl);
+            else if (imgInput.files && imgInput.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(evt) {
-                    savePiece(evt.target.result);
-                };
+                reader.onload = function(evt) { savePiece(evt.target.result); };
                 reader.readAsDataURL(imgInput.files[0]);
-            } else {
-                alert("Por favor, tire uma foto ou escolha um arquivo da galeria!");
-            }
+            } else alert("Por favor, tire uma foto ou selecione da galeria!");
         }
 
         function deletePiece(id) {
-            if (confirm("Deseja mesmo apagar esta peça do seu closet?")) {
+            if (confirm("Deseja apagar esta peça do seu closet?")) {
                 clothes = clothes.filter(c => c.id !== id);
                 saveData();
                 renderCloset();
             }
         }
 
+        /* MONTADOR DE LOOKS */
         function openPickerModal(slot) {
             activeSlotForPicker = slot;
             const modal = document.getElementById('pickerModal');
@@ -1178,14 +1295,10 @@
                     const card = document.createElement('div');
                     card.className = 'picker-card';
                     card.onclick = () => selectPieceForSlot(item);
-                    card.innerHTML = `
-                        <img src="${item.image}">
-                        <span>${item.name}</span>
-                    `;
+                    card.innerHTML = `<img src="${item.image}"><span>${item.name}</span>`;
                     grid.appendChild(card);
                 });
             }
-
             modal.classList.add('active');
         }
 
@@ -1242,26 +1355,35 @@
             });
         }
 
+        /* NOVA OPÇÃO: APLICATIVO CRIA UM LOOK EXTERNO (CRIADO PELO APP) */
+        function generateExternalAppOutfit() {
+            const randomLook = appGeneratedOutfits[Math.floor(Math.random() * appGeneratedOutfits.length)];
+            document.getElementById('outfitNameInput').value = randomLook.name;
+
+            Object.keys(randomLook.items).forEach(slot => {
+                const item = randomLook.items[slot];
+                currentStudioOutfit[slot] = item;
+                updateStudioSlotUI(slot, item);
+            });
+
+            alert(`✨ O Dress to Impress criou a combinação inédita de tendência: "${randomLook.name}"!`);
+        }
+
         function saveCurrentOutfit() {
             const name = document.getElementById('outfitNameInput').value || 'Fit Glam';
-            
             if (!currentStudioOutfit.top && !currentStudioOutfit.bottom) {
                 alert('Escolha ao menos uma roupa para o seu look!');
                 return;
             }
 
-            const newOutfit = {
-                id: Date.now().toString(),
-                title: name,
-                items: { ...currentStudioOutfit }
-            };
-
+            const newOutfit = { id: Date.now().toString(), title: name, items: { ...currentStudioOutfit } };
             outfits.push(newOutfit);
             saveData();
             renderLookbook();
-            alert('Look salvo na sua galeria de Favoritos! ❤️');
+            alert('Look salvo no seu Lookbook/Favoritos! ❤️');
         }
 
+        /* FAVORITOS & AGENDA */
         function renderLookbook() {
             const grid = document.getElementById('lookbookGrid');
             grid.innerHTML = '';
@@ -1274,75 +1396,4 @@
             outfits.forEach(outfit => {
                 const card = document.createElement('div');
                 card.className = 'lookbook-card';
-
                 let thumbs = '';
-                Object.values(outfit.items).forEach(item => {
-                    if (item) thumbs += `<img src="${item.image}" class="lookbook-thumb-img">`;
-                });
-
-                card.innerHTML = `
-                    <div style="display:flex; justify-size: space-between; align-items:center;">
-                        <h3 class="lookbook-title">${outfit.title}</h3>
-                        <button class="delete-btn" style="position:static;" onclick="deleteOutfit('${outfit.id}')"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <div class="lookbook-thumbs">${thumbs}</div>
-                    <button class="btn btn-secondary" style="width:100%; justify-content:center;" onclick="assignToWeek('${outfit.id}')">
-                        <i class="fa-solid fa-calendar-plus"></i> Usar na Semana
-                    </button>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function deleteOutfit(id) {
-            if (confirm("Remover este look dos favoritos?")) {
-                outfits = outfits.filter(o => o.id !== id);
-                saveData();
-                renderLookbook();
-            }
-        }
-
-        function assignToWeek(outfitId) {
-            const day = prompt("Digite o dia para agendar esse fit (seg, ter, qua, qui, sex, sab, dom):");
-            if (day && weeklyPlan.hasOwnProperty(day.toLowerCase())) {
-                const fit = outfits.find(o => o.id === outfitId);
-                weeklyPlan[day.toLowerCase()] = fit;
-                saveData();
-                renderWeeklyPlanner();
-                alert(`Fit agendado para ${day.toUpperCase()}! 🗓️✨`);
-            } else if (day) {
-                alert("Dia inválido! Digite: seg, ter, qua, qui, sex, sab ou dom.");
-            }
-        }
-
-        function renderWeeklyPlanner() {
-            const days = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-            days.forEach(day => {
-                const container = document.getElementById(`day-${day}`);
-                const fit = weeklyPlan[day];
-
-                if (fit) {
-                    let thumbs = '';
-                    Object.values(fit.items).forEach(item => {
-                        if (item) thumbs += `<img src="${item.image}" style="width:28px; height:28px; border-radius:6px; object-fit:cover;">`;
-                    });
-
-                    container.innerHTML = `
-                        <span style="font-weight:bold; font-size:0.85rem; color:var(--pink-primary); text-align:center;">${fit.title}</span>
-                        <div style="display:flex; gap:3px; flex-wrap:wrap; justify-content:center;">${thumbs}</div>
-                        <button class="btn btn-secondary" style="padding: 0.2rem 0.6rem; font-size:0.7rem;" onclick="removeFromWeek('${day}')">Remover</button>
-                    `;
-                } else {
-                    container.innerHTML = `<span style="font-size:0.8rem; color: var(--text-muted);">Livre</span>`;
-                }
-            });
-        }
-
-        function removeFromWeek(day) {
-            weeklyPlan[day] = null;
-            saveData();
-            renderWeeklyPlanner();
-        }
-    </script>
-</body>
-</html>
